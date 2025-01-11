@@ -16,7 +16,7 @@ export const InfoEmpresa = {
 
   telefono: "3182293083",
   email: "contacto@codex_webdev.com",
-  website: "https://parrilla-internacional.vercel.app/",
+  website: "https://codexweb.vercel.app",
   horarios: {
     lunes_viernes: "12:00 pm - 10:00 pm",
     sabados: "12:00 pm - 11:00 pm",
@@ -42,9 +42,8 @@ keywords: "aplicaciones web personalizadas, desarrollo de software para negocios
     imagenTiendaContacto: "/Contacto_redes.webp",
     aboutUs: "/imgs/AboutUs.webp"
   },
-  linkWebProduccion: "https://parrilla-internacional.vercel.app/"
+  linkWebProduccion: "https://codexweb.vercel.app"
 }
-
 
 // Barra de navegación principal e inferior
 export const TopMenuConfig = {
