@@ -1,0 +1,197 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Section {
+  id       String           @id @default(uuid())
+  name   String
+  slug     String?           @unique
+  iconName String?          // Nuevo campo opcional para el nombre del ícono
+  order    Int  
+  href      String            // Orden o prioridad
+  isActive Boolean          // Estado activo/inactivo
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+
+model Video {
+  id        String   @id @default(uuid())
+  url       String   @unique
+  title     String
+  description String
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ImageGallery {
+  id        String   @id @default(uuid())
+  url       String   @unique
+  title     String
+  description String
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model Transaction {
+  id           String           @id @default(uuid())
+  date         DateTime
+  type         TransactionType
+  description  String
+  category     String
+  amount       Decimal
+  paymentMethod PaymentMethod
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+enum TransactionType {
+  ingreso
+  gasto
+}
+
+enum IncomeCategory {
+  ventas
+  ahorro
+  otros
+  propinas
+  prestamos
+}
+
+enum ExpenseCategory {
+  implementos
+  materiales
+  arriendo
+  empleados
+  servicios_publicos
+  envios
+  deudas
+  mantenimiento
+  impuestos
+  otros
+}
+
+enum PaymentMethod {
+  efectivo
+  nequi
+  daviplata
+  cuenta_principal
+  transferencias
+}
+
+
+model User {
+  id                 String               @id @default(uuid())
+  name               String
+  email              String               @unique
+  password           String
+  role               Role                 @default(user)
+  image              String?
+  emailVerified DateTime? // Campo opcional para la verificación del correo
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+}
+
+
+
+enum Role {
+  admin
+  user
+}
+
+// prisma/schema.prisma
+model Service {
+  id          String   @id @default(uuid())       // ID único
+  titulo      String                              // Título del servicio
+  descripcion String                              // Descripción del servicio
+  imagen      String                              // URL de la imagen
+  slug        String   @unique                    // Slug único
+  isActive    Boolean  @default(true)             // Estado (activo/inactivo)
+  createdAt   DateTime @default(now())            // Fecha de creación
+  updatedAt   DateTime @updatedAt                 // Fecha de actualización
+}
+
+
+model Testimonial {
+  id          String   @id @default(uuid())
+  imagen      String   // URL de la imagen
+  titulo      String   // Título del testimonio (ej: nombre)
+  descripcion String   // Descripción o frase motivadora
+  url         String   // Enlace relacionado con el testimonio
+  isActive    Boolean  @default(true) // Para activar/desactivar testimonios
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Articulo {
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  titulo           String
+  descripcion      String
+  imagen           String
+  imagenes         String[]
+  parrafos         String[]
+  subtitulos       String[]
+  fechaPublicacion DateTime  @default(now())
+  autor            String
+  orden            Int              // Nuevo campo
+}
+
+model Tarjeta {
+  id          String   @id @default(uuid())
+  titulo      String
+  descripcion String
+  imagen      String  // URL de la imagen
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model CarruselSection {
+  id          String   @id @default(uuid())
+  titulo      String
+  descripcion String
+  imagen      String
+  url         String
+  orden       Int      // Nuevo campo para definir el orden en el carrusel
+  isActive    Boolean  @default(true) // Campo para activar/desactivar elementos
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model Categoria {
+  id          String      @id @default(uuid())
+  nombre      String      @unique
+  descripcion String?
+  isActive    Boolean     @default(true) // Campo para activar/desactivar categorías
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  aplicaciones CatalogoApp[]
+}
+
+model CatalogoApp {
+  id          String      @id @default(uuid())
+  imagen      String
+  nombre      String
+  descripcion String
+  url         String
+  categoriaId String      @default("1") // Categoría predeterminada
+  categoria   Categoria   @relation(fields: [categoriaId], references: [id])
+  etiquetas   String[]
+  destacado   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+
